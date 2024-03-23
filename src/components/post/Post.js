@@ -22,7 +22,7 @@ export default function Post({post}) {
         <p className="card-text">
           {post.body}
         </p>
-        <small><i>{moment(post.createdAt.toDate()).calendar()}</i></small>
+        <small className="text-secondary"><i>{moment(post.createdAt.toDate()).calendar()}</i></small>
       </div>
     </div>
   );
