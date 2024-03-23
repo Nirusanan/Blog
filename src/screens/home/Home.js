@@ -1,32 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Post from "../../components/post/Post";
 import "./Home.css";
-import { useFetch } from "./../../hooks/useFetch";
 import Navbar from "../../components/navbar/Navbar";
 import Themeswitch from "../../components/switch/Themeswitch";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/config";
+// import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { useFetchCollection } from "../../hooks/useFetchCollection";
 
 
 
 export default function Home() {
-  const [posts, setPosts] = useState(null);
+  
+  const {documents: posts} = useFetchCollection("posts")
 
-  useEffect(() =>{
-    const collectionRef = collection(db, "posts")
-
-    getDocs(collectionRef)
-      .then((snapshot) =>{
-        let results = []
-
-        snapshot.docs.forEach((doc)=>{
-          results.push({...doc.data(), id:doc.id})
-        })
-
-        setPosts(results);
-      })
-      .catch((error) => console.log(error))
-  }, []);
 
   return (
     <div>
