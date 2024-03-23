@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {collection, onSnapshot} from "firebase/firestore";
+import {collection, onSnapshot, orderBy, query} from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 
@@ -11,7 +11,9 @@ export const useFetchCollection = (fbcollection) => {
     useEffect(() => {
         let collectionRef = collection(db, fbcollection)
 
-        const unsub = onSnapshot(collectionRef, (snapshot) =>{
+        let queryRef = query(collectionRef, orderBy("createdAt", "desc"))
+
+        const unsub = onSnapshot(queryRef, (snapshot) =>{
             let results = []
 
             snapshot.docs.forEach((doc) => {
