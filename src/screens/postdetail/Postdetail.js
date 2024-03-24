@@ -5,11 +5,13 @@ import { useFetch } from "./../../hooks/useFetch";
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
 import NavbarPost from "../../components/navbar/NavbarPost";
 import Themeswitch from "../../components/switch/Themeswitch";
+import { useFirestore } from "../../hooks/useFirestore";
 
 export default function Postdetail() {
   const location = useLocation();
 
   const { state: post } = location;
+  const { deleteDocument, error } = useFirestore('posts')
 
   //const { data } = []
 
@@ -20,6 +22,8 @@ export default function Postdetail() {
   };
 
   const handleDelete = () => {
+    deleteDocument(post.id)
+    navigate('/')
   };
 
 
