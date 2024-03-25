@@ -3,6 +3,7 @@ import './Signup.css'
 import NavbarPost from '../../components/navbar/NavbarPost'
 import ThemeSwitch from '../../components/switch/Themeswitch'
 import Appsubmitbutton from '../../components/appsubmitbutton/Appsubmitbutton'
+import { useSignup } from '../../hooks/useSignup'
 
 export default function Signup() {
     const [email, setEmail] = useState('')
@@ -10,6 +11,7 @@ export default function Signup() {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [validationError, setValidationError] = useState(null)
+    const {signup, error}= useSignup('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -30,6 +32,9 @@ export default function Signup() {
         setValidationError(null)
 
         console.log({ email, password, firstName, lastName })
+
+        // server authentication
+        signup({ email, password, firstName, lastName })
     }
 
     return (
@@ -61,6 +66,11 @@ export default function Signup() {
                         {
                             validationError && <div className="alert alert-danger" role="alert">
                                 {validationError}
+                            </div>
+                        }
+                        {
+                            error && <div className="alert alert-danger" role="alert">
+                                {error}
                             </div>
                         }
                         <div className="float-end">
