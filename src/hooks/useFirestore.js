@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, serverTimestamp } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore"
 import { useState } from "react"
 import { db } from "../firebaseConfig"
 
@@ -25,6 +25,15 @@ export const useFirestore = (fbcollection) =>{
             setError(err.message)
         }
     }
-    
-    return {addDocument, document, error, deleteDocument}
+
+    const updateDocument = async (id, document) =>{
+        const documentRef = doc(db, fbcollection, id)
+        try {
+            await updateDoc(documentRef, {...document, createdAt:serverTimestamp()})
+        } catch (err) {
+            setError(err.message)
+        }
+    }
+
+    return {addDocument, document, error, deleteDocument, updateDocument}
 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Editpost.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useFetch } from "./../../hooks/useFetch";
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
 import NavbarEdit from "../../components/navbar/NavbarEdit";
 import Themeswitch from "../../components/switch/Themeswitch";
+import { useFirestore } from "../../hooks/useFirestore";
 
 export default function Editpost() {
   const [title, setTitle] = useState("");
@@ -17,6 +17,8 @@ export default function Editpost() {
   const location = useLocation();
 
   const { state: post } = location;
+
+  const {updateDocument, error} = useFirestore('posts')
 
 
 
@@ -33,6 +35,8 @@ export default function Editpost() {
     }
     setValidationError("");
     console.log(modifiedField);
+    updateDocument(post.id, modifiedField);
+    navigate('/')
   };
 
   useEffect(() => {
@@ -92,6 +96,11 @@ export default function Editpost() {
             Post Edited Successfully!
           </div>
         )} */}
+        {
+          error && <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+        }
 
           <div className="float-end">
             <Appsubmitbutton title="Edit" />
