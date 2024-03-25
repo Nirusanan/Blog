@@ -8,6 +8,7 @@ export const useFirestore = (fbcollection) =>{
 
     const collectionRef = collection(db, fbcollection)
 
+    // Create
     const addDocument = async(document) => {
         try {
         const doc = await addDoc(collectionRef, {...document, createdAt:serverTimestamp()})
@@ -17,6 +18,7 @@ export const useFirestore = (fbcollection) =>{
         } 
     }
 
+    // Delete
     const deleteDocument = async(id) =>{
         const documentRef = doc(db, fbcollection, id)
         try{
@@ -26,6 +28,7 @@ export const useFirestore = (fbcollection) =>{
         }
     }
 
+    // Update
     const updateDocument = async (id, document) =>{
         const documentRef = doc(db, fbcollection, id)
         try {
