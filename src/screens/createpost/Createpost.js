@@ -3,8 +3,6 @@ import "./Createpost.css";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
-import NavbarPost from "../../components/navbar/NavbarPost";
-import Themeswitch from "../../components/switch/Themeswitch";
 import { db } from "../../firebaseConfig";
 import { useFirestore } from "../../hooks/useFirestore";
 
@@ -16,9 +14,9 @@ export default function Createpost() {
   const navigate = useNavigate()
 
   //const {data} = []
-  const {addDocument, error} = useFirestore('posts')
+  const { addDocument, error } = useFirestore('posts')
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title) {
@@ -39,54 +37,50 @@ export default function Createpost() {
 
 
   return (
-    <div >
-      <div>
-        <NavbarPost />
-        <Themeswitch />
-      </div>
-      <div className="outercontainer">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>
-              <h6>Title:</h6>
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+
+    <div className="outercontainer">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>
+            <h6>Title:</h6>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            <h6>Content:</h6>
+          </label>
+          <textarea
+            className="form-control"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+        {validationError && (
+          <div className="alert alert-danger" role="alert">
+            {validationError}
           </div>
-          <div className="form-group">
-            <label>
-              <h6>Content:</h6>
-            </label>
-            <textarea
-              className="form-control"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          </div>
-          {validationError && (
-            <div className="alert alert-danger" role="alert">
-              {validationError}
-            </div>
-          )}
-          {/* {
+        )}
+        {/* {
           data.length !== 0 && <div className="alert alert-success" role="alert">
             Post Created Successfully!
           </div>
         } */}
         {
           error && <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-        }
-          <div className="float-end">
-            <Appsubmitbutton title="Create" />
+            {error}
           </div>
-        </form>
-      </div>
+        }
+        <div className="float-end">
+          <Appsubmitbutton title="Create" />
+        </div>
+      </form>
     </div>
+
   );
 }

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./Editpost.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
-import NavbarEdit from "../../components/navbar/NavbarEdit";
-import Themeswitch from "../../components/switch/Themeswitch";
 import { useFirestore } from "../../hooks/useFirestore";
 
 export default function Editpost() {
@@ -18,7 +16,7 @@ export default function Editpost() {
 
   const { state: post } = location;
 
-  const {updateDocument, error} = useFirestore('posts')
+  const { updateDocument, error } = useFirestore('posts')
 
 
 
@@ -58,56 +56,51 @@ export default function Editpost() {
   }
 
   return (
-    <div>
-      <div>
-        <NavbarEdit />
-        <Themeswitch />
-      </div>
-      <div className="outercontainer">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>
-              <h6>Title:</h6>
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={title}
-              onChange={onTitleChange}
-            />
+    <div className="outercontainer">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>
+            <h6>Title:</h6>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            value={title}
+            onChange={onTitleChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            <h6>Content:</h6>
+          </label>
+          <textarea rows="5"
+            className="form-control"
+            value={content}
+            onChange={onContentChange}
+          />
+        </div>
+        {validationError && (
+          <div className="alert alert-danger" role="alert">
+            {validationError}
           </div>
-          <div className="form-group">
-            <label>
-              <h6>Content:</h6>
-            </label>
-            <textarea rows="5"
-              className="form-control"
-              value={content}
-              onChange={onContentChange}
-            />
-          </div>
-          {validationError && (
-            <div className="alert alert-danger" role="alert">
-              {validationError}
-            </div>
-          )}
-          {/* {data.length !== 0 && (
+        )}
+        {/* {data.length !== 0 && (
           <div className="alert alert-success" role="alert">
             Post Edited Successfully!
           </div>
         )} */}
         {
           error && <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
+            {error}
+          </div>
         }
 
-          <div className="float-end">
-            <Appsubmitbutton title="Edit" />
-          </div>
-        </form>
-      </div>
+        <div className="float-end">
+          <Appsubmitbutton title="Edit" />
+        </div>
+      </form>
     </div>
+
 
   );
 }
