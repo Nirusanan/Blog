@@ -17,7 +17,7 @@ export const useAuthentication = () => {
                 const user = response.user
                 const docRef = doc(db, 'users', user.uid)
                 setDoc(docRef, {firstName, lastName})
-                // dispatch({type:'LOGIN', payload:user})
+                dispatch({type:'LOGIN', payload:user})
             })
             .catch((error) => {
                 console.log(error.message)
