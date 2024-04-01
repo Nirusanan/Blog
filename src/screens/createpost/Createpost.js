@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
 import { db } from "../../firebaseConfig";
 import { useFirestore } from "../../hooks/useFirestore";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function Createpost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [validationError, setValidationError] = useState("");
+
+  const {user} = useAuthContext();
 
   const navigate = useNavigate()
 
@@ -28,9 +31,8 @@ export default function Createpost() {
       return
     }
     setValidationError("");
-    console.log({ title, body: content, userId: 1 });
 
-    addDocument({ title, body: content, userId: 1 })
+    addDocument({ title, body: content, userId: user.uid })
 
     navigate('/')
   };

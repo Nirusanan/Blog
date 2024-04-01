@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./Postdetail.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useFetch } from "./../../hooks/useFetch";
 import Appsubmitbutton from "../../components/appsubmitbutton/Appsubmitbutton";
 import { useFirestore } from "../../hooks/useFirestore";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 
 export default function Postdetail() {
@@ -11,6 +11,7 @@ export default function Postdetail() {
 
   const { state: post } = location;
   const { deleteDocument, error } = useFirestore('posts')
+  const {user} = useAuthContext();
 
   //const { data } = []
 
@@ -37,12 +38,13 @@ export default function Postdetail() {
             Post Deleted Successfully!
           </div>
         )} */}
-
+        { (user.uid === post.userId) ? <>
         <div className="float-end">
           <Appsubmitbutton onClick={handleDelete} title="Delete" />
           <div className="float-end"></div>
           <Appsubmitbutton onClick={handleEdit} title="Edit" />
         </div>
+        </> : <></>}
       </div>
     </div>
 
