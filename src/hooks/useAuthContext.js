@@ -10,5 +10,5 @@ export const useAuthContext = () =>{
         throw new Error('Authcontext is undefined')
     }
 
-    return {authContext}
+    return authContext
 }

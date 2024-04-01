@@ -2,9 +2,12 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { useState } from "react"
 import { auth, db } from "../firebaseConfig"
 import { doc, setDoc } from "firebase/firestore"
+import { useAuthContext } from "./useAuthContext"
 
 export const useAuthentication = () => {
     const [error, setError] = useState(null)
+
+    const {dispatch} = useAuthContext()
 
     const signup = ({ email, password, firstName, lastName }) => {
         setError(null)
@@ -12,9 +15,9 @@ export const useAuthentication = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((response) => {
                 const user = response.user
-                
                 const docRef = doc(db, 'users', user.uid)
                 setDoc(docRef, {firstName, lastName})
+                // dispatch({type:'LOGIN', payload:user})
             })
             .catch((error) => {
                 console.log(error.message)
@@ -28,6 +31,7 @@ export const useAuthentication = () => {
             .then((response) => {
                 const user = response.user
                 console.log(user.uid)
+                dispatch({type:'LOGIN', payload:user})
             })
             .catch((error) => {
                 console.log(error.message)
@@ -39,6 +43,7 @@ export const useAuthentication = () => {
         signOut(auth)
         .then((response) =>{
             console.log("Successfully logout")
+            dispatch({type:'LOGOUT'})
         })
         .catch((err)=>{
             setError(err.message)
